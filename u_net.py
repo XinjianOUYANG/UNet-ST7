@@ -156,9 +156,9 @@ class U_Net():
         fig.savefig('./evaluation/curve.png', bbox_inches='tight', pad_inches=0.1)  # 保存绘制曲线的图片
         plt.close()
 
-    def test(self, batch_size=1):
+    def test(self, model_path = r"weights/best_model.h5", batch_size=1):
         os.makedirs('./evaluation/test_result', exist_ok=True)
-        self.unet.load_weights(r"weights/best_model.h5")
+        self.unet.load_weights(model_path)
         # 获得数据
         x_train, x_label, y_train, y_label = self.load_data()
         test_num = y_train.shape[0]
@@ -180,6 +180,7 @@ class U_Net():
         acc = n / test_num * 100
         print('the accuracy of test data is: %.2f%%' % acc)
 
+    #random test
     def test1(self, batch_size=1):
         self.unet.load_weights(r"weights/best_model.h5")
         # 获得数据
