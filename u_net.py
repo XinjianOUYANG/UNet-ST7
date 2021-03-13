@@ -21,14 +21,16 @@ class U_Net():
         self.width = 256
         self.channels = 1
         self.shape = (self.height, self.width, self.channels)
+        
         # set optimizer
         optimizer = Adam(0.002, 0.5)
         # u_net
-        self.unet = self.build_unet()  # 创建网络变量
         self.unet.compile(loss='mse',
                           optimizer=optimizer,
                           metrics=[self.metric_fun])
         self.unet.summary()
+
+        self.unet = self.build_unet()  # create a u-net
 
     def build_unet(self, n_filters=16, dropout=0.1, batchnorm=True, padding='same'):
 
