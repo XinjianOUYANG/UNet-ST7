@@ -16,15 +16,13 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLRO
 
 class U_Net():
     def __init__(self):
-        # 设置图片基本参数
+        # set the basic parameters of an image
         self.height = 256
         self.width = 256
         self.channels = 1
         self.shape = (self.height, self.width, self.channels)
-
-        # 优化器
+        # set optimizer
         optimizer = Adam(0.002, 0.5)
-
         # u_net
         self.unet = self.build_unet()  # 创建网络变量
         self.unet.compile(loss='mse',
