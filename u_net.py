@@ -156,11 +156,13 @@ class U_Net():
         fig.savefig('./evaluation/curve.png', bbox_inches='tight', pad_inches=0.1)  # 保存绘制曲线的图片
         plt.close()
 
+    # test dataset
     def test(self, model_path = r"weights/best_model.h5", batch_size=1):
         os.makedirs('./evaluation/test_result', exist_ok=True)
         self.unet.load_weights(model_path)
         # 获得数据
         x_train, x_label, y_train, y_label = self.load_data()
+        #print(x_train.shape)
         test_num = y_train.shape[0]
         index, step = 0, 0
         self.unet.evaluate(y_train, y_label)
@@ -179,6 +181,39 @@ class U_Net():
             index += batch_size
         acc = n / test_num * 100
         print('the accuracy of test data is: %.2f%%' % acc)
+
+    # def prediction(self, picture_path = r"./prediction/test_picture/", model_path = r"weights/best_model.h5", batch_size=1):
+    #     os.makedirs('./prediction',exist_ok = True)
+    #     self.unet.load_weights(model_path)
+    #     x_pred = []
+    #     # load the picture
+    #     fnames = []
+    #     #  利用os.walk()函数获取根目录下文件夹名称，子文件夹名称及文件名称
+    #     for dirName, subDirList, fileList in os.walk(picture_path):
+    #         for fname in fileList:
+    #             # 用os.path.split()函数来判断并获取文件的后缀名
+    #             if os.path.splitext(fname)[1] == '.png':
+    #                 fnames.append(fname)
+
+    #     for filename in glob(picture_path + '/*'):  # 获取文件夹中的文件
+    #         print(filename)
+    #         img = np.array(Image.open(filename), dtype='float32') / 255
+    #         x_pred.append(img[256:, 128:384])
+
+    #     x_pred = np.expand_dims(np.array(x_pred), axis=3)  # 扩展维度，增加第4维
+    #     print(x_pred.shape)
+    #     np.random.seed(116)  # 设置相同的随机种子，确保数据匹配
+    #     np.random.shuffle(x_pred)  # 对第一维度进行乱序
+
+    #     test_num = x_pred.shape[0]
+    #     i = 0
+    #     while i < test_num:
+    #         print('prediction: %d/%d' % (i, test_num))
+    #         mask = self.unet.predict(x_pred[i:i + batch_size]) > 0.1
+    #         mask = Image.fromarray(np.uint8(mask[0, :, :, 0] * 255))
+    #         mask.save(fnames[i]+ '_pred' + '.png')
+    #         i += batch_size
+    #     print('the prediction results are saved in the folder:','prediction/pre_results')
 
     #random test
     def test1(self, batch_size=1):
@@ -215,6 +250,6 @@ class U_Net():
 
 if __name__ == '__main__':
     unet = U_Net()
-    # unet.train()    # 开始训练网络
-    # unet.test()     # 评价测试集并检测测试集肿瘤分割结果
-    unet.test1()  # 随机显示
+    unet.train(10)    # 开始训练网络
+    unet.test()     # 评价测试集并检测测试集肿瘤分割结果
+    # unet.test1()  #
