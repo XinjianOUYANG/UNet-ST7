@@ -1,6 +1,6 @@
 # ST7 project: U-Net for tumor segmentation 
 
-This is a projct for ST7 course.
+This is the evaluation project for ST7 course.
 
 ## OverView
 
