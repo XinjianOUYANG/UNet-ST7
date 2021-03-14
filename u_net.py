@@ -133,7 +133,7 @@ class U_Net():
         # 设置训练的checkpoint
         callbacks = [EarlyStopping(patience=100, verbose=2),
                      ReduceLROnPlateau(factor=0.5, patience=20, min_lr=0.00005, verbose=2),
-                     ModelCheckpoint('./weights/best_model.h5', verbose=2, save_best_only=True)]
+                     ModelCheckpoint('./weights/history/best_model.h5', verbose=2, save_best_only=True)]
 
         # 进行训练
         results = self.unet.fit(x_train, x_label, batch_size=batch_size, epochs=epochs, verbose=2,
