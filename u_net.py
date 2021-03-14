@@ -22,6 +22,8 @@ class U_Net():
         self.channels = 1
         self.shape = (self.height, self.width, self.channels)
         
+        self.unet = self.build_unet()  # create a u-net
+
         # set optimizer
         optimizer = Adam(0.002, 0.5)
         # u_net
@@ -30,7 +32,6 @@ class U_Net():
                           metrics=[self.metric_fun])
         self.unet.summary()
 
-        self.unet = self.build_unet()  # create a u-net
 
     def build_unet(self, n_filters=16, dropout=0.1, batchnorm=True, padding='same'):
 
@@ -250,6 +251,6 @@ class U_Net():
 
 if __name__ == '__main__':
     unet = U_Net()
-    unet.train(10)    # 开始训练网络
+    # unet.train()    # 开始训练网络
     unet.test()     # 评价测试集并检测测试集肿瘤分割结果
     # unet.test1()  #
