@@ -15,3 +15,10 @@ Folder *train* is our dataset whose pictures are labelled in folder *label*
 Folder *evaluation* is the dataset used for testing models.
 
 u_net.py builds a U-net and tests it.
+
+
+## Installation
+
+python = 3.8,
+
+tensflow = 2.3
