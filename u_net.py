@@ -154,7 +154,7 @@ class U_Net():
         plt.close()
 
     # test dataset
-    def test(self, model_path = r"weights/best_model.h5", batch_size=1):
+    def test(self, model_path = r"weights/trained_by_Molin_175.h5", batch_size=1):
         os.makedirs('./evaluation/test_result', exist_ok=True)
         self.unet.load_weights(model_path)
         # load data
