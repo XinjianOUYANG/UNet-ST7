@@ -1,4 +1,4 @@
-# ST7 project: U-Net for tumor segmentation 
+# ST7 project: U-Net for tumor segmentation
 
 This is the evaluation project for ST7 course.
 
@@ -6,11 +6,11 @@ This is the evaluation project for ST7 course.
 
 Folder *weight* saves the model we have trained, and the model is saved in h5 format.
 
-Folder *train* is our dataset whose picture is labelled in folder *label*
+Folder *train* is our dataset whose pictures are labelled in folder *label*
 
 Folder *evaluation* is the dataset used for testing models.
 
-[U_nets.ipynb](https://github.com/XinjianOUYANG/UNet-ST7/blob/3dcf3062dafbcb53568e2953aff2c2195b6ba356/U_nets.ipynb) is the introduciton of the practical work.
+**[Practical_work_U_nets.ipynb](https://github.com/XinjianOUYANG/UNet-ST7/blob/3dcf3062dafbcb53568e2953aff2c2195b6ba356/U_nets.ipynb) is our practical work.**
 
 u_net.py includes our code t build a U-net and testing functions.
 

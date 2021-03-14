@@ -6,7 +6,7 @@ unet = u_net.U_Net()
 
 # unet.test1()  # test randomly
 
-unet.train(epochs = 5)    # trainning a model 
+unet.train(epochs = 5)    # trainned model is saved in foplder weights/history
 
 
 
