@@ -122,18 +122,15 @@ class U_Net():
         # 图片有三千张左右，按9:1进行分配
         return x_train[:2700, :, :], x_label[:2700, :, :], x_train[2700:, :, :], x_label[2700:, :, :]
 
-    def train(self, epochs=101, batch_size=32):
+    def train(self, epochs=101, save_path ='./weights/history', batch_size=32):
         os.makedirs('./weights', exist_ok=True)
-        # 获得数据
+        # load datasets
         x_train, x_label, y_train, y_label = self.load_data()
 
-        # 加载已经训练的模型
-        # self.unet.load_weights(r"./best_model.h5")
-
-        # 设置训练的checkpoint
+        # set checkpoint
         callbacks = [EarlyStopping(patience=100, verbose=2),
                      ReduceLROnPlateau(factor=0.5, patience=20, min_lr=0.00005, verbose=2),
-                     ModelCheckpoint('./weights/history/best_model.h5', verbose=2, save_best_only=True)]
+                     ModelCheckpoint(save_path + '/model.h5', verbose=2, save_best_only=True)]
 
         # 进行训练
         results = self.unet.fit(x_train, x_label, batch_size=batch_size, epochs=epochs, verbose=2,
@@ -152,7 +149,7 @@ class U_Net():
         plt.subplot(122), plt.plot(x, metric, x, val_metric)
         plt.title("metric curve"), plt.legend(['metric', 'val_metric'])
         plt.xlabel("Epochs"), plt.ylabel("Dice")
-        plt.show()  # 会弹出显示框，关闭之后继续运行
+        plt.show()  # show pircutres, close it to continue
         fig.savefig('./evaluation/curve.png', bbox_inches='tight', pad_inches=0.1)  # 保存绘制曲线的图片
         plt.close()
 
@@ -160,16 +157,15 @@ class U_Net():
     def test(self, model_path = r"weights/best_model.h5", batch_size=1):
         os.makedirs('./evaluation/test_result', exist_ok=True)
         self.unet.load_weights(model_path)
-        # 获得数据
+        # load data
         x_train, x_label, y_train, y_label = self.load_data()
-        #print(x_train.shape)
         test_num = y_train.shape[0]
         index, step = 0, 0
         self.unet.evaluate(y_train, y_label)
         n = 0.0
         while index < test_num:
             print('schedule: %d/%d' % (index, test_num))
-            step += 1  # 记录训练批数
+            step += 1  
             mask = self.unet.predict(x_train[index:index + batch_size]) > 0.1
             mask_true = x_label[index, :, :, 0]
             if (np.sum(mask) > 0) == (np.sum(mask_true) > 0):
@@ -182,43 +178,10 @@ class U_Net():
         acc = n / test_num * 100
         print('the accuracy of test data is: %.2f%%' % acc)
 
-    # def prediction(self, picture_path = r"./prediction/test_picture/", model_path = r"weights/best_model.h5", batch_size=1):
-    #     os.makedirs('./prediction',exist_ok = True)
-    #     self.unet.load_weights(model_path)
-    #     x_pred = []
-    #     # load the picture
-    #     fnames = []
-    #     #  利用os.walk()函数获取根目录下文件夹名称，子文件夹名称及文件名称
-    #     for dirName, subDirList, fileList in os.walk(picture_path):
-    #         for fname in fileList:
-    #             # 用os.path.split()函数来判断并获取文件的后缀名
-    #             if os.path.splitext(fname)[1] == '.png':
-    #                 fnames.append(fname)
-
-    #     for filename in glob(picture_path + '/*'):  # 获取文件夹中的文件
-    #         print(filename)
-    #         img = np.array(Image.open(filename), dtype='float32') / 255
-    #         x_pred.append(img[256:, 128:384])
-
-    #     x_pred = np.expand_dims(np.array(x_pred), axis=3)  # 扩展维度，增加第4维
-    #     print(x_pred.shape)
-    #     np.random.seed(116)  # 设置相同的随机种子，确保数据匹配
-    #     np.random.shuffle(x_pred)  # 对第一维度进行乱序
-
-    #     test_num = x_pred.shape[0]
-    #     i = 0
-    #     while i < test_num:
-    #         print('prediction: %d/%d' % (i, test_num))
-    #         mask = self.unet.predict(x_pred[i:i + batch_size]) > 0.1
-    #         mask = Image.fromarray(np.uint8(mask[0, :, :, 0] * 255))
-    #         mask.save(fnames[i]+ '_pred' + '.png')
-    #         i += batch_size
-    #     print('the prediction results are saved in the folder:','prediction/pre_results')
-
     #random test
     def test1(self, batch_size=1):
         self.unet.load_weights(r"weights/best_model.h5")
-        # 获得数据
+        # load data
         x_train, x_label, y_train, y_label = self.load_data()
         test_num = y_train.shape[0]
         for epoch in range(5):
@@ -226,7 +189,7 @@ class U_Net():
             while len(rand_index) < 3:
                 np.random.seed()
                 temp = np.random.randint(0, test_num, 1)
-                if np.sum(x_label[temp]) > 0:  # 确保产生有肿瘤的编号
+                if np.sum(x_label[temp]) > 0:  # tumor = 1
                     rand_index.append(temp)
             rand_index = np.array(rand_index).squeeze()
             fig, ax = plt.subplots(3, 3, figsize=(18, 18))
@@ -234,7 +197,7 @@ class U_Net():
                 mask = self.unet.predict(x_train[index:index + 1]) > 0.1
                 ax[i][0].imshow(x_train[index].squeeze(), cmap='gray')
                 ax[i][0].set_title('network input', fontsize=20)
-                # 计算dice系数
+                # calculate Dice
                 fz = 2 * np.sum(mask.squeeze() * x_label[index].squeeze())
                 fm = np.sum(mask.squeeze()) + np.sum(x_label[index].squeeze())
                 dice = fz / fm
@@ -243,13 +206,13 @@ class U_Net():
                 ax[i][2].imshow(x_label[index].squeeze())
                 ax[i][2].set_title('mask label', fontsize=20)
             fig.savefig('./evaluation/show%d_%d_%d.png' % (rand_index[0], rand_index[1], rand_index[2]),
-                        bbox_inches='tight', pad_inches=0.1)  # 保存绘制的图片
+                        bbox_inches='tight', pad_inches=0.1) 
             print('finished epoch: %d' % epoch)
             plt.close()
 
 
 # if __name__ == '__main__':
 #     unet = U_Net()
-#     # unet.train()    # 开始训练网络
-#     unet.test()     # 评价测试集并检测测试集肿瘤分割结果
-#     # unet.test1()  #
+#     # unet.train()     
+#     unet.test()     
+#     # unet.test1()  
