@@ -248,8 +248,8 @@ class U_Net():
             plt.close()
 
 
-if __name__ == '__main__':
-    unet = U_Net()
-    # unet.train()    # 开始训练网络
-    unet.test()     # 评价测试集并检测测试集肿瘤分割结果
-    # unet.test1()  #
+# if __name__ == '__main__':
+#     unet = U_Net()
+#     # unet.train()    # 开始训练网络
+#     unet.test()     # 评价测试集并检测测试集肿瘤分割结果
+#     # unet.test1()  #
