@@ -14,4 +14,4 @@ Folder *evaluation* is the dataset used for testing models.
 
 u_net.py includes our code t build a U-net and testing functions.
 
-**run main.py to load our model and test it(testing results are saved in folder *evaluation*)**
+**run *main.py* to load our model and test it(testing results are saved in folder *evaluation*)**
