@@ -173,9 +173,9 @@ class U_Net():
             if (np.sum(mask) > 0) == (np.sum(mask_true) > 0):
                 n += 1
             mask = Image.fromarray(np.uint8(mask[0, :, :, 0] * 255))
-            mask.save('./evaluation/test_result_2/' + str(step) + '.png')
+            mask.save('./evaluation/test_result/' + str(step) + '.png')
             mask_true = Image.fromarray(np.uint8(mask_true * 255))
-            mask_true.save('./evaluation/test_result_2/' + str(step) + 'true.png')
+            mask_true.save('./evaluation/test_result/' + str(step) + 'true.png')
             index += batch_size
         acc = n / test_num * 100
         print('the accuracy of test data is: %.2f%%' % acc)
