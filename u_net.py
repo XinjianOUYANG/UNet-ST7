@@ -132,17 +132,17 @@ class U_Net():
                      ReduceLROnPlateau(factor=0.5, patience=20, min_lr=0.00005, verbose=2),
                      ModelCheckpoint(save_path + '/model.h5', verbose=2, save_best_only=True)]
 
-        # 进行训练
+        # start training
         results = self.unet.fit(x_train, x_label, batch_size=batch_size, epochs=epochs, verbose=2,
                                 callbacks=callbacks, validation_split=0.1, shuffle=True)
 
-        # 绘制损失曲线
+        # plot loss curve
         loss = results.history['loss']
         val_loss = results.history['val_loss']
         metric = results.history['metric_fun']
         val_metric = results.history['val_metric_fun']
         fig, ax = plt.subplots(1, 2, figsize=(12, 6))
-        x = np.linspace(0, len(loss), len(loss))  # 创建横坐标
+        x = np.linspace(0, len(loss), len(loss))  
         plt.subplot(121), plt.plot(x, loss, x, val_loss)
         plt.title("Loss curve"), plt.legend(['loss', 'val_loss'])
         plt.xlabel("Epochs"), plt.ylabel("loss")
@@ -150,7 +150,7 @@ class U_Net():
         plt.title("metric curve"), plt.legend(['metric', 'val_metric'])
         plt.xlabel("Epochs"), plt.ylabel("Dice")
         plt.show()  # show pircutres, close it to continue
-        fig.savefig('./evaluation/curve.png', bbox_inches='tight', pad_inches=0.1)  # 保存绘制曲线的图片
+        fig.savefig('./evaluation/curve.png', bbox_inches='tight', pad_inches=0.1)  # save figures
         plt.close()
 
     # test dataset
