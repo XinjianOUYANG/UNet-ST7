@@ -7,7 +7,7 @@ unet.test(model_path = model_path)     # test results are saved in folder evalua
 
 # unet.test1()  # test randomly
 # save_path = 'weights/history'
-# unet.train(epochs = 2, save_path = save_path)    # trainned model is saved in folder weights/history
+# unet.train(epochs = 175, save_path = save_path)    # trainned model is saved in folder weights/history
 
 
 
