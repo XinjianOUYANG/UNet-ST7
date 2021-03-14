@@ -4,7 +4,7 @@ This is the evaluation project for ST7 course.
 
 **[Practical_work_U_nets.ipynb](https://github.com/XinjianOUYANG/UNet-ST7/blob/3dcf3062dafbcb53568e2953aff2c2195b6ba356/U_nets.ipynb) is the introduction of our practical work.**
 
-**run *main.py* to load our model and test it ( testing results are saved in folder *evaluation*)**
+**run *main.py* to load our model and test it (testing results are saved in folder *evaluation*)**
 
 ## OverView
 
