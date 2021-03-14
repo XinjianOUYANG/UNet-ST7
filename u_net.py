@@ -21,9 +21,8 @@ class U_Net():
         self.width = 256
         self.channels = 1
         self.shape = (self.height, self.width, self.channels)
-        
-        self.unet = self.build_unet()  # create a u-net
-
+        # create a u-net
+        self.unet = self.build_unet()  
         # set optimizer
         optimizer = Adam(0.002, 0.5)
         # u_net
