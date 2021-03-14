@@ -4,7 +4,7 @@ This is the evaluation project for ST7 course.
 
 ## OverView
 
-Folder *weight* saves the model we have trained.
+Folder *weight* saves the model we have trained, and the model is saved in h5 format.
 
 Folder *train* is our dataset whose picture is labelled in folder *label*
 
