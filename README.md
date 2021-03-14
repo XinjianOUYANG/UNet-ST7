@@ -1,1 +1,1 @@
-# U-Net-for-tumor-segmentation
+# ST7 project: U-Net for tumor segmentation 
